@@ -1,4 +1,4 @@
-package Util;
+package Util.WordVectorization;
 
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.word2vec.Word2Vec;
@@ -6,10 +6,10 @@ import org.deeplearning4j.models.word2vec.Word2Vec;
 import java.io.File;
 import java.util.Collection;
 
-public class TarGZWordVector {
+public class TarGZWordVector implements WordVector{
     private static Word2Vec vector;
 
-    public WordVector(String path) {
+    public TarGZWordVector(String path) {
         File model = new File(path);
         System.out.println("WordVectorLoader: loading word vector at path " + path);
         vector = WordVectorSerializer.readWord2VecModel(model);
@@ -31,7 +31,7 @@ public class TarGZWordVector {
      * @param word the term which will be converted to a vector via the imported model
      * @return the vector representing the word
      */
-    public double[] vectorizeWord(String word) {
+    public double[] getWordVector(String word) {
         if(vector.hasWord(word))
         return vector.getWordVector(word);
         return null;

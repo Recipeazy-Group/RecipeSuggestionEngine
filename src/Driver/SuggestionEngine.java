@@ -1,6 +1,6 @@
 package Driver;
 
-import Util.WordVector;
+import Util.WordVectorization.WordVector;
 
 public class SuggestionEngine {
 

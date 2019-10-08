@@ -1,4 +1,4 @@
-package Util;
+package Util.Network;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -18,22 +18,6 @@ import java.util.Map;
 
 public class NetServer {
     private HttpServer server;
-/*
-    public static void main(String[] args) {
-        NetServer testServer = new NetServer(5060);
-        testServer.addRoute("/start", new NetAction() {
-            public void customAction() {
-                write("start");
-            }
-        });
-        testServer.addRoute("/stop", new NetAction() {
-            public void customAction() {
-                write("stop");
-            }
-        });
-        testServer.start();
-    }
-*/
 
     public NetServer(final int PORT) {
         try {

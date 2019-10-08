@@ -1,16 +1,14 @@
-package Util;
+package Util.WordVectorization;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
+import java.util.Collection;
 import java.util.HashMap;
 
-public class SimpleWordVector {
+public class SimpleWordVector implements WordVector{
     private String dataPath;
 
     private HashMap<String, double[]> vector;
@@ -45,6 +43,25 @@ public class SimpleWordVector {
             }
             vector.put(term, wordVec);
         }
+        try {
+            bR.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public Collection<String> getClosestMatches(String word, int numReturn) {
+        return null;
+    }
+
+    @Override
+    public double[] getWordVector(String word) {
+        return vector.get(word).clone();
+    }
+
+    @Override
+    public double calcWordSimilarity(String word1, String word2) {
+        return 0;
     }
 }
