@@ -6,7 +6,7 @@ import org.deeplearning4j.models.word2vec.Word2Vec;
 import java.io.File;
 import java.util.Collection;
 
-public class WordVector {
+public class TarGZWordVector {
     private static Word2Vec vector;
 
     public WordVector(String path) {
