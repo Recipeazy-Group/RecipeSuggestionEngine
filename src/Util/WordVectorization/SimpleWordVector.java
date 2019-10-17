@@ -1,5 +1,6 @@
 package Util.WordVectorization;
 
+import Util.Math.Vector;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -52,7 +53,10 @@ public class SimpleWordVector implements WordVector{
 
     @Override
     public Collection<String> getClosestMatches(String word, int numReturn) {
-        return null;
+PriorityQueue<CosineResult> results = new PriorityQueue(new CosineResultComparator)
+
+
+
     }
 
     @Override
@@ -64,4 +68,16 @@ public class SimpleWordVector implements WordVector{
     public double calcWordSimilarity(String word1, String word2) {
         return 0;
     }
+
+
+    protected class CosineResult{
+        public CosineResult(Vector a, Vector b){
+            this.a=a;
+            this.b=b;
+            cosDistance = Vector.dotProduct(a, b) / (a.getNorm() * b.getNorm()); //cos(theta) = ( <a, b> ) / ( |a| * |b| )
+        }
+        Vector a, b;
+        double cosDistance;
+    }
+
 }

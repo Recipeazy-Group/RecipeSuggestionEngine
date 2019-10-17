@@ -42,4 +42,12 @@ public class Vector<T> {
         return dotProduct(this, b);
     }
 
+    public static double getNorm(Vector v){
+       return dotProduct(v, v); //The norm of a vector is equal to the dot product of itself by itself
+    }
+
+    public double getNorm(){
+        return getNorm(this);
+    }
+
 }
