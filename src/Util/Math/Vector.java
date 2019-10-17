@@ -50,4 +50,8 @@ public class Vector<T> {
         return getNorm(this);
     }
 
+    public Vector<T> clone(){
+        return new Vector<T>(data);
+    }
+
 }
