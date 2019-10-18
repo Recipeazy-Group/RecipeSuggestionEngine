@@ -3,7 +3,9 @@ package Util.RecipeUtils;
 import java.util.ArrayList;
 
 public class Recipe {
+
     public ArrayList<String> ingredients;
+
     public Recipe(){
         ingredients = new ArrayList<>();
 
