@@ -13,6 +13,7 @@ public class Vector<T> {
     public Vector(List<T> data) {
         size = data.size();
         type = data.get(0).getClass();
+        this.data = (T[])new Object[data.size()];
         for (int i = 0; i < data.size(); i++) {
             this.data[i] = data.get(i);
         }

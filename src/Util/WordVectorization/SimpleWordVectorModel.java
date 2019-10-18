@@ -18,6 +18,8 @@ public class SimpleWordVectorModel implements WordVectorModel {
 
     public SimpleWordVectorModel(String dataPath) {
         this.dataPath = dataPath;
+        vector = new HashMap<>();
+        load();
     }
 
     public void load() {
@@ -27,6 +29,7 @@ public class SimpleWordVectorModel implements WordVectorModel {
 
     public void load(String dataPath) {
         File toLoad = new File(dataPath);
+        System.out.println(toLoad.getAbsolutePath());
         BufferedReader bR = null;
         try {
             bR = new BufferedReader(new FileReader(toLoad));
@@ -37,11 +40,11 @@ public class SimpleWordVectorModel implements WordVectorModel {
         JSONObject vectors = new JSONObject(vectorTokener);
         for (String term : vectors.keySet()) {
             JSONArray vec = vectors.getJSONArray(term);
-            double[] wordVec = new double[vec.length()];
+            Double[] wordVec = new Double[vec.length()];
             for (int i = 0; i < wordVec.length; i++) {
                 wordVec[i] = vec.getDouble(i);
             }
-            vector.put(term, wordVec);
+            vector.put(term.toLowerCase(), new Vector(wordVec));
         }
         try {
             bR.close();
@@ -52,13 +55,17 @@ public class SimpleWordVectorModel implements WordVectorModel {
 
     @Override
     public Collection<String> getClosestMatches(String word, int numReturn) {
-        PriorityQueue<CosineResult> results = new PriorityQueue(new CosineResultComparator);
+        PriorityQueue<CosineResult> results = new PriorityQueue(new CosineResultComparator());
         Vector thisVector = vector.get(word);
-        if(thisVector==null)throw new RuntimeException("Word was not contained in food2vec model.");
+        if(thisVector==null)throw new RuntimeException(word + " was not contained in food2vec model.");
         for(Map.Entry<String, Vector<Double>> vec : vector.entrySet()){
-            results.add(new CosineResult(vec.getValue(), thisVector));
+            results.add(new CosineResult(vec.getValue(), thisVector, vec.getKey()));
         }
-
+        ArrayList<String> toReturn = new ArrayList<>(numReturn);
+        for(int i=0; i<numReturn; i++){
+            toReturn.add(i, results.remove().word);
+        }
+        return toReturn;
     }
 
     @Override
@@ -73,12 +80,13 @@ public class SimpleWordVectorModel implements WordVectorModel {
 
 
     protected class CosineResult {
-        public CosineResult(Vector a, Vector b) {
+        public CosineResult(Vector a, Vector b, String word) {
             this.a = a;
             this.b = b;
+            this.word=word;
             cosDistance = Vector.dotProduct(a, b) / (a.getNorm() * b.getNorm()); //cos(theta) = ( <a, b> ) / ( |a| * |b| )
         }
-
+        String word;
         Vector a, b;
         double cosDistance;
     }
