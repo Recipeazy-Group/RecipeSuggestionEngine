@@ -29,8 +29,8 @@ public class RecipePropertyClassifier {
             if (!toReturn.containsKey(c))
                 toReturn.put(c, 0d);
             for (String ing : evaluate.ingredients) {
-                toReturn.put(CuisineTool.NAME_CUISINES.get(ing),
-                        toReturn.get(ing) + SuggestionEngine.vectors.calcWordSimilarity(ing, CuisineTool.CUISINE_NAMES.get(c)));
+                toReturn.put(c,
+                        toReturn.get(c) + SuggestionEngine.vectors.calcWordSimilarity(ing, CuisineTool.CUISINE_NAMES.get(c)));
             }
         }
         Vector<Double> sums = new Vector<>(toReturn.values());

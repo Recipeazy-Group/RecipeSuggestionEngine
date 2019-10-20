@@ -1,8 +1,6 @@
 package Util.Math;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Arrays;
 
 public class Vector<T> {
     private T[] data;
@@ -12,18 +10,16 @@ public class Vector<T> {
     private final int size;
 
     public Vector(Collection<T> data) {
-        size = data.size();
-        type = ((T) new Object()).getClass();
-        this.data = (T[]) new Object[data.size()];
-        int i = 0;
-        for (T element : data) {
-            this.data[i] = element;
-            i++;
-        }
+        this((T[])data.toArray());
     }
 
     public Vector(T[] data) {
-        this(Arrays.asList(data));
+        size = data.length;
+        type = data[0].getClass();
+        this.data = (T[]) new Object[size];
+        for(int i=0; i<size; i++){
+            this.data[i]=data[i];
+        }
     }
 
     public Vector(int size) {
@@ -56,7 +52,7 @@ public class Vector<T> {
     }
 
     public static double getNorm(Vector v) {
-        return dotProduct(v, v); //The norm of a vector is equal to the dot product of itself by itself
+        return Math.sqrt(dotProduct(v, v)); //The norm of a vector is equal to the sqrt of dot product of itself by itself
     }
 
     public double getNorm() {

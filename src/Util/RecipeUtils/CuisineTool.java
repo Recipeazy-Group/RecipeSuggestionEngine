@@ -35,8 +35,7 @@ public abstract class CuisineTool {
         AFRICAN,
         EAST_ASIAN,
         SOUTHEAST_ASIAN,
-        SOUTH_ASIAN,
-        END
+        SOUTH_ASIAN
     }
 
     public String getNaturalLanguage(CUISINE cuisine) {
