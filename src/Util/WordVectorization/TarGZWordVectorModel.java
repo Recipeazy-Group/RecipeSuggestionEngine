@@ -1,6 +1,7 @@
 package Util.WordVectorization;
 
 import Util.Math.Vector;
+import jdk.jshell.spi.ExecutionControl;
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.word2vec.Word2Vec;
 
@@ -25,8 +26,14 @@ public class TarGZWordVectorModel implements WordVectorModel {
      */
     public Collection<String> getClosestMatches(String word, int numReturn) {
         if (vector.hasWord(word))
-            return vector.wordsNearestSum(word, numReturn);
+            return getClosestMatches(getWordVector(word), numReturn);
         return null;
+    }
+
+    @Override
+    public Collection<String> getClosestMatches(Vector<Double> word, int numReturn) {
+        throw new RuntimeException("NOTE: getClosestMatches(..) has not been implemented for TarGZWordVectorModel due to " +
+                "lack of support for vec->word lookups.");
     }
 
     /**
@@ -40,8 +47,7 @@ public class TarGZWordVectorModel implements WordVectorModel {
             for (double d : data)
                 buildList.add(d);
             return new Vector(buildList);
-        }
-        else return null;
+        } else return null;
     }
 
     public double[] getPrimitiveWordVector(String word) {
@@ -54,5 +60,10 @@ public class TarGZWordVectorModel implements WordVectorModel {
         if (vector.hasWord(word1) && vector.hasWord(word2))
             return vector.similarity(word1, word2);
         return Double.MIN_VALUE;
+    }
+
+    @Override
+    public int getDimension() {
+        return vector.vectorSize();
     }
 }

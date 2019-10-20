@@ -1,5 +1,6 @@
 package Util.Math;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Arrays;
 
@@ -10,12 +11,14 @@ public class Vector<T> {
 
     private final int size;
 
-    public Vector(List<T> data) {
+    public Vector(Collection<T> data) {
         size = data.size();
-        type = data.get(0).getClass();
+        type = ((T) new Object()).getClass();
         this.data = (T[]) new Object[data.size()];
-        for (int i = 0; i < data.size(); i++) {
-            this.data[i] = data.get(i);
+        int i = 0;
+        for (T element : data) {
+            this.data[i] = element;
+            i++;
         }
     }
 

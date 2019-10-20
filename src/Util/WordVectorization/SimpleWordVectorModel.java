@@ -55,14 +55,20 @@ public class SimpleWordVectorModel implements WordVectorModel {
 
     @Override
     public Collection<String> getClosestMatches(String word, int numReturn) {
-        PriorityQueue<CosineResult> results = new PriorityQueue(new CosineResultComparator());
         Vector thisVector = vector.get(word);
-        if(thisVector==null)throw new RuntimeException(word + " was not contained in food2vec model.");
-        for(Map.Entry<String, Vector<Double>> vec : vector.entrySet()){
-            results.add(new CosineResult(vec.getValue(), thisVector, vec.getKey()));
+        if (thisVector == null)
+            throw new RuntimeException(word + " was not contained in food2vec model.");
+        return getClosestMatches(thisVector, numReturn);
+    }
+
+    @Override
+    public Collection<String> getClosestMatches(Vector<Double> word, int numReturn) {
+        PriorityQueue<CosineResult> results = new PriorityQueue(new CosineResultComparator());
+        for (Map.Entry<String, Vector<Double>> vec : vector.entrySet()) {
+            results.add(new CosineResult(vec.getValue(), word, vec.getKey()));
         }
         ArrayList<String> toReturn = new ArrayList<>(numReturn);
-        for(int i=0; i<numReturn; i++){
+        for (int i = 0; i < numReturn; i++) {
             toReturn.add(i, results.remove().word);
         }
         return toReturn;
@@ -75,17 +81,27 @@ public class SimpleWordVectorModel implements WordVectorModel {
 
     @Override
     public double calcWordSimilarity(String word1, String word2) {
-        return 0;
+        Vector w1 = vector.get(word1), w2 = vector.get(word2);
+        if (w1 == null || w2 == null)
+            throw new RuntimeException(word1 +" or " + word2 + " was not contained in food2vec model.");
+        return new CosineResult(w1, w2, "N/A").cosDistance;
+    }
+
+    @Override
+    public int getDimension() {
+        return vector.size();
     }
 
 
     protected class CosineResult {
+        //Note that a cosDistance of 1 is "most similar"
         public CosineResult(Vector a, Vector b, String word) {
             this.a = a;
             this.b = b;
-            this.word=word;
+            this.word = word;
             cosDistance = Vector.dotProduct(a, b) / (a.getNorm() * b.getNorm()); //cos(theta) = ( <a, b> ) / ( |a| * |b| )
         }
+
         String word;
         Vector a, b;
         double cosDistance;
