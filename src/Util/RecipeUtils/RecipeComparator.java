@@ -1,6 +1,6 @@
 package Util.RecipeUtils;
 
-import Driver.SuggestionEngine;
+import Driver.SuggestionServer;
 import Util.Math.Vector;
 
 public class RecipeComparator {
@@ -17,9 +17,9 @@ public class RecipeComparator {
     }
 
     public Vector<Double> getCompositeRecipeVector(Recipe a){
-        Vector<Double> compositeVector = new Vector<>(SuggestionEngine.vectors.getDimension());
+        Vector<Double> compositeVector = new Vector<>(SuggestionServer.vectors.getDimension());
         for(String s :  a.ingredients){
-            Vector<Double> ingredientVector = SuggestionEngine.vectors.getWordVector(s);
+            Vector<Double> ingredientVector = SuggestionServer.vectors.getWordVector(s);
             ingredientVector.normalize();
             compositeVector.plusEquals(ingredientVector);
         }
