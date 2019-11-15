@@ -179,7 +179,7 @@ public class NetServer {
         }
 
         public String getSubroute() {
-            return exchange.getRequestURI().getRawPath().substring(route.length() + 1);
+            return exchange.getRequestURI().getRawPath().substring(route.length());
         }
 
 
