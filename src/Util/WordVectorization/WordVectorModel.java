@@ -11,4 +11,5 @@ public interface WordVectorModel {
     double calcWordSimilarity(String word1, String word2);
 
     int getDimension();
+    int getItemDimension();
 }

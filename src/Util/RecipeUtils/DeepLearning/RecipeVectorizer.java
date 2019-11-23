@@ -17,7 +17,7 @@ public class RecipeVectorizer {
 
     public static INDArray features;
 
-    public RecipeVectorizer(){
+    public RecipeVectorizer() {
     }
 
     public void setVectors(WordVectorModel wM) {
@@ -25,11 +25,11 @@ public class RecipeVectorizer {
     }
 
     public static void main(String[] args) throws Exception {
-        int num_recipes = 5;
+        int num_recipes = 10;
         RecipeVectorizer recipeVectorizer = new RecipeVectorizer();
-        recipeVectorizer.setVectors(new SimpleWordVectorModel("lib/models/foodVecs.json"));
-        features = Nd4j.zeros(recipeVectorizer.vectorModel.getDimension(), num_recipes);
-        List<Recipe> recipes = new RecipeReader("lib/models/train.json").getRecipes(5);
+        recipeVectorizer.setVectors(new SimpleWordVectorModel("RecipeSuggestionEngine/lib/models/foodVecs.json"));
+        features = Nd4j.zeros(recipeVectorizer.vectorModel.getItemDimension(), num_recipes);
+        List<Recipe> recipes = new RecipeReader("RecipeSuggestionEngine/lib/models/train.json").getRecipes(num_recipes);
         int count = 0;
         for (Recipe r : recipes) {
             var a = recipeVectorizer.getRecipeVector(r);
@@ -41,10 +41,11 @@ public class RecipeVectorizer {
     }
 
     public Vector<Double> getRecipeVector(Recipe r) {
-        Vector<Double> toReturn = new Vector<>(vectorModel.getDimension());
+
+        Vector<Double> toReturn = Vector.zeros(vectorModel.getItemDimension());
         for (String s : r.ingredients) {
             Vector<Double> a = vectorModel.getWordVector(s);
-            toReturn.add(a);
+            toReturn.plusEquals(a);
         }
         return toReturn.getNormalized();
     }
@@ -54,16 +55,15 @@ public class RecipeVectorizer {
         for (int i = 0; i < vec.getSize(); i++) {
             d[i] = vec.at(i);
         }
-        INDArray col = Nd4j.create(d, new int[]{1});
+        INDArray col = Nd4j.create(d);
         return col;
     }
 
-    public void putRecipe(int index, INDArray recipeCol){
-        features = features.putColumn(index, recipeCol);
+    public void putRecipe(int index, INDArray recipeCol) {
+        features.putColumn(index, recipeCol);
     }
 
     public INDArray reduce(int numParams) {
         return PCA.pca(features, numParams, true);
     }
-
 }
