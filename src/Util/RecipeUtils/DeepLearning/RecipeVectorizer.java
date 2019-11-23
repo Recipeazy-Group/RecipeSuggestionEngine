@@ -36,8 +36,8 @@ public class RecipeVectorizer {
             var b = recipeVectorizer.recipeToColVec(a);
             recipeVectorizer.putRecipe(count++, b);
         }
-        features = recipeVectorizer.reduce(5);
-        System.out.println(features.toString());
+        System.out.println(recipeVectorizer.reduce(5).toString());
+
     }
 
     public Vector<Double> getRecipeVector(Recipe r) {
