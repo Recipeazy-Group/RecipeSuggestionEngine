@@ -99,4 +99,17 @@ public class Vector<T> {
         return toNorm.getNormalized();
     }
 
+    public void add(Vector<T> v){
+        if(operationalTypeCheck())
+            throw new RuntimeException("Vector: current element type " + type + " is not supported by add(..)");
+        for(int i=0; i<size; i++){
+            Double elSum = (Double)data[i] + (Double)v.data[i];
+            data[i] = (T)elSum;
+        }
+    }
+
+    public int getSize(){
+        return data.length;
+    }
+
 }
