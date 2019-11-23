@@ -3,7 +3,8 @@ package Util.RecipeUtils;
 import java.util.ArrayList;
 
 public class Recipe {
-
+    public int ID;
+    public CuisineTool.CUISINE cuisine;
     public ArrayList<String> ingredients;
 
     public Recipe(){
