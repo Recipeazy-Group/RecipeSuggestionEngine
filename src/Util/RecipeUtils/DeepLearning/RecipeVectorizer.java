@@ -11,7 +11,9 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dimensionalityreduction.PCA;
 import org.nd4j.linalg.factory.Nd4j;
 
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,14 +36,18 @@ public class RecipeVectorizer {
         RecipeVectorizer recipeVectorizer = new RecipeVectorizer();
         recipeVectorizer.setVectors(new SimpleWordVectorModel("RecipeSuggestionEngine/lib/models/foodVecs.json"));
         features = Nd4j.zeros(recipeVectorizer.vectorModel.getItemDimension(), num_recipes);
-        List<Recipe> recipes = new RecipeReader("RecipeSuggestionEngine/lib/models/train.json").getRecipes(num_recipes);
+        List<Recipe> recipes = new RecipeReader("RecipeSuggestionEngine/lib/models/train.json").getRecipes();
         int count = 0;
         for (Recipe r : recipes) {
             var a = recipeVectorizer.getRecipeVector(r);
             var b = recipeVectorizer.recipeToColVec(a);
             recipeVectorizer.putRecipe(count++, b);
         }
-        System.out.println(recipeVectorizer.reduce(90).toString());
+
+        try (DataOutputStream sWrite = new DataOutputStream(new FileOutputStream(new File("RecipeSuggestionEngine/lib/models/recipeVectors.bin")))) {
+            Nd4j.write(recipeVectorizer.features, sWrite);
+        }
+        System.out.println("Writing complete.");
     }
 
     public Vector<Double> getRecipeVector(Recipe r) {
