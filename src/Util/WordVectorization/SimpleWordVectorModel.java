@@ -76,7 +76,12 @@ public class SimpleWordVectorModel implements WordVectorModel {
 
     @Override
     public Vector<Double> getWordVector(String word) {
-        return vector.get(word).clone();
+        return vector.containsKey(word) ? vector.get(word).clone() : Vector.zeros(getItemDimension());
+    }
+
+    public int getItemDimension(){
+        return vector.entrySet().iterator().next().getValue().getSize();
+
     }
 
     @Override

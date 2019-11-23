@@ -22,10 +22,6 @@ public class Vector<T> {
         }
     }
 
-    public Vector(int size) {
-        this((T[]) new Object[size]);
-    }
-
     private boolean operationalTypeCheck() {
         return (type != Double.class && type != Integer.class && type != Long.class);
         //Used to check if arithmetic can be done on a vector of this type
@@ -86,7 +82,7 @@ public class Vector<T> {
     public Vector<T> getNormalized() {
         if (operationalTypeCheck())
             throw new RuntimeException("Vector: current element type " + type + " is not supported by getNormalized(..)");
-        Vector<T> normalized = new Vector<T>(size);
+        Vector<T> normalized = new Vector<T>(data);
         double mag = normalized.getNorm();
         for (int i = 0; i < size; i++) {
             Double normalizedVal = (Double) normalized.data[i] / mag;
@@ -99,17 +95,16 @@ public class Vector<T> {
         return toNorm.getNormalized();
     }
 
-    public void add(Vector<T> v){
-        if(operationalTypeCheck())
-            throw new RuntimeException("Vector: current element type " + type + " is not supported by add(..)");
-        for(int i=0; i<size; i++){
-            Double elSum = (Double)data[i] + (Double)v.data[i];
-            data[i] = (T)elSum;
-        }
-    }
-
     public int getSize(){
         return data.length;
+    }
+
+    public static Vector<Double> zeros(int dim){
+        Double[] d = new Double[dim];
+        for(int i=0; i<dim; i++){
+            d[i]=0.0;
+        }
+        return new Vector<Double>(d);
     }
 
 }

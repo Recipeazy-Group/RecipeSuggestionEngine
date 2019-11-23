@@ -17,7 +17,7 @@ public class RecipeComparator {
     }
 
     public Vector<Double> getCompositeRecipeVector(Recipe a){
-        Vector<Double> compositeVector = new Vector<>(SuggestionServer.vectors.getDimension());
+        Vector<Double> compositeVector = Vector.zeros(SuggestionServer.vectors.getDimension());
         for(String s :  a.ingredients){
             Vector<Double> ingredientVector = SuggestionServer.vectors.getWordVector(s);
             ingredientVector.normalize();

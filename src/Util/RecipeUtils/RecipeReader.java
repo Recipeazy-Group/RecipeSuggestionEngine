@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class RecipeReader {
@@ -14,11 +15,18 @@ public class RecipeReader {
 
     public RecipeReader(String path) throws Exception {
         BufferedReader bR = new BufferedReader(new FileReader(new File(path)));
-        String line, text = "";
+        String line;
+        LinkedList<String> text = new LinkedList<>();
         while ((line = bR.readLine()) != null) {
-            text += line;
+            text.add(line);
         }
-        recipeJSON = new JSONArray(text);
+        bR.close();
+        StringBuilder sB = new StringBuilder();
+        for(String s : text) {
+            sB.append(s);
+        }
+        recipeJSON = new JSONArray(sB.toString());
+
     }
 
     public List<Recipe> getRecipes() {
