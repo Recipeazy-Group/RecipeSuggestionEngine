@@ -37,13 +37,14 @@ public class RecipeVectorizer {
         recipeVectorizer.setVectors(new SimpleWordVectorModel("RecipeSuggestionEngine/lib/models/foodVecs.json"));
         features = Nd4j.zeros(recipeVectorizer.vectorModel.getItemDimension(), num_recipes);
         List<Recipe> recipes = new RecipeReader("RecipeSuggestionEngine/lib/models/train.json").getRecipes();
+        System.out.println("Got recipes.");
         int count = 0;
         for (Recipe r : recipes) {
             var a = recipeVectorizer.getRecipeVector(r);
             var b = recipeVectorizer.recipeToColVec(a);
             recipeVectorizer.putRecipe(count++, b);
         }
-
+        System.out.println("Writing results...");
         try (DataOutputStream sWrite = new DataOutputStream(new FileOutputStream(new File("RecipeSuggestionEngine/lib/models/recipeVectors.bin")))) {
             Nd4j.write(recipeVectorizer.features, sWrite);
         }
