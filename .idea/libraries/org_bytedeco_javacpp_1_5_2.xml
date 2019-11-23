@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="org.bytedeco:javacpp:1.5.2" type="repository">
+    <properties maven-id="org.bytedeco:javacpp:1.5.2" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/javacpp-1.5.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

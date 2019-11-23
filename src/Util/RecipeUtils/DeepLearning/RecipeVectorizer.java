@@ -8,8 +8,6 @@ import Util.WordVectorization.WordVectorModel;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dimensionalityreduction.PCA;
 import org.nd4j.linalg.factory.Nd4j;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeVectorizer {
