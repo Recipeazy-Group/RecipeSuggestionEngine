@@ -8,7 +8,7 @@ import org.json.JSONTokener;
 import java.io.*;
 import java.util.*;
 
-public class SimpleWordVectorModel implements WordVectorModel {
+public class SimpleWordVectorModel implements WordVectorModel, Serializable {
     private String dataPath;
 
     private HashMap<String, Vector<Double>> vector;

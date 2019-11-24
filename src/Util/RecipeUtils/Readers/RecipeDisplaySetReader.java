@@ -55,7 +55,7 @@ public class RecipeDisplaySetReader {
                 }
                 ings.add(longestPossibleIng);
             }
-            toReturn.add(new Recipe(ings, i));
+            toReturn.add(new Recipe(ings, i, recipeJSON.getJSONObject(i).getString("title")));
         }
         return toReturn;
     }
