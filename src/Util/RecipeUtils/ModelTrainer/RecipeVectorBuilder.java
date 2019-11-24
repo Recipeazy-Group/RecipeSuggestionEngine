@@ -20,6 +20,7 @@ public abstract class RecipeVectorBuilder {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("Vectors could not be read from " + SAVE_LOCATION);
         return null;
     }
 

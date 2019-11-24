@@ -20,10 +20,14 @@ public abstract class RecipeRecommender {
     private transient static HashMap<String, Integer> ingredientFrequency;
     private transient static HashMap<CuisineTool.CUISINE, Integer> cuisineFrequency;
 
+    private enum DEV_STATE {
+        TRAIN, DEPLOY
+    }
+
     public static List<Integer> getRecipeRecommendations(List<Recipe> userRecipes, int num) {
         loadPreferenceMaps(userRecipes);
         if (recipeVecs == null)
-            initRecipeVecs();
+            initRecipeVecs(DEV_STATE.DEPLOY);
         // Now construct the user preference vector
         // via the use of a fake, placeholder recipe
         Vector<Double> sum = Vector.zeros(recipeVecs.getItemDimension());
@@ -41,20 +45,27 @@ public abstract class RecipeRecommender {
     }
 
 
-    private static void initRecipeVecs() {
+    private static void initRecipeVecs(DEV_STATE d) {
         HashMap<String, Vector<Double>> recipeVecs = new HashMap<>();
-        for (int i = 0; i < recipeVectors.columns(); i++) {
-            INDArray a = recipeVectors.getColumn(i);
-            Double[] vals = new Double[a.length()];
-            for (int j = 0; j < a.length(); j++) {
-                vals[j] = a.getDouble(j);
-            }
-            recipeVecs.put("" + i, new Vector(vals));
+        switch (d) {
+            case TRAIN:
+                for (int i = 0; i < recipeVectors.columns(); i++) {
+                    INDArray a = recipeVectors.getColumn(i);
+                    Double[] vals = new Double[a.length()];
+                    for (int j = 0; j < a.length(); j++) {
+                        vals[j] = a.getDouble(j);
+                    }
+                    recipeVecs.put("" + i, new Vector(vals));
+                }
+                RecipeRecommender.recipeVecs = new SimpleWordVectorModel(recipeVecs);
+                break;
+            case DEPLOY:
+                RecipeRecommender.recipeVecs = RecipeVectorBuilder.readVectors();
+                break;
         }
-        RecipeRecommender.recipeVecs = new SimpleWordVectorModel(recipeVecs);
     }
 
-    private static void loadPreferenceMaps(List<Recipe> favoritedRecipes){
+    private static void loadPreferenceMaps(List<Recipe> favoritedRecipes) {
         if (recipeVectors == null) {
             System.out.println("Initializing recipe vectors for UserAnalyzer...");
             recipeVectors = RecipeVectorizer.getVectors();
