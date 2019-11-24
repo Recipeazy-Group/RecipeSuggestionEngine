@@ -5,15 +5,23 @@ import Util.RecipeUtils.Readers.RecipeDisplaySetReader;
 import Util.RecipeUtils.Recipe;
 import Util.WordVectorization.SimpleWordVectorModel;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 
-public class RecipeVectorBuilder {
+public abstract class RecipeVectorBuilder {
 
     public static final String SAVE_LOCATION = "RecipeSuggestionEngine/lib/models/recipeVectors.bin";
+
+    public static SimpleWordVectorModel readVectors() {
+        try {
+            ObjectInputStream oI = new ObjectInputStream(new FileInputStream(new File(SAVE_LOCATION)));
+            return (SimpleWordVectorModel) oI.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static void main(String[] args) throws Exception {
         // This will build a SimpleWordVectorModel for Recipes a.k.a. a SimpleRecipeVectorModel
@@ -22,8 +30,8 @@ public class RecipeVectorBuilder {
         List<Recipe> dataset = loadDataset(vectors);
         System.out.println("\tDataset loaded");
         HashMap<String, Vector<Double>> toBuild = new HashMap<>();
-        for(Recipe r : dataset){
-            toBuild.put(""+r.ID, r.compositeVector(vectors, true));
+        for (Recipe r : dataset) {
+            toBuild.put("" + r.ID, r.compositeVector(vectors, true));
         }
         System.out.println("\tBuilt composite vectors.");
         SimpleWordVectorModel build = new SimpleWordVectorModel(toBuild);
