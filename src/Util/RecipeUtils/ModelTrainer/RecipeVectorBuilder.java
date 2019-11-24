@@ -3,15 +3,16 @@ package Util.RecipeUtils.ModelTrainer;
 import Util.Math.Vector;
 import Util.RecipeUtils.Readers.RecipeDisplaySetReader;
 import Util.RecipeUtils.Recipe;
+import Util.ResourceRepo;
 import Util.WordVectorization.SimpleWordVectorModel;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class RecipeVectorBuilder {
+public class RecipeVectorBuilder {
 
-    public static final String SAVE_LOCATION = "lib/models/recipeVectors.bin";
+    public static final String SAVE_LOCATION = ResourceRepo.props.get("RECIPE_VECTOR_SAVE_PATH");
 
     public static SimpleWordVectorModel readVectors() {
         try {
@@ -27,7 +28,7 @@ public abstract class RecipeVectorBuilder {
     public static void main(String[] args) throws Exception {
         // This will build a SimpleWordVectorModel for Recipes a.k.a. a SimpleRecipeVectorModel
         System.out.println("Generating recipe vectors.");
-        SimpleWordVectorModel vectors = new SimpleWordVectorModel("lib/models/foodVecs.json");
+        SimpleWordVectorModel vectors = new SimpleWordVectorModel(ResourceRepo.props.get("FOOD_VECS_PATH"));
         List<Recipe> dataset = loadDataset(vectors);
         System.out.println("\tDataset loaded");
         HashMap<String, Vector<Double>> toBuild = new HashMap<>();
@@ -45,7 +46,7 @@ public abstract class RecipeVectorBuilder {
     }
 
     public static List<Recipe> loadDataset(SimpleWordVectorModel vectors) throws Exception {
-        RecipeDisplaySetReader r = new RecipeDisplaySetReader("lib/models/recipes.json", vectors);
+        RecipeDisplaySetReader r = new RecipeDisplaySetReader(ResourceRepo.props.get("RECIPE_DATA_PATH"), vectors);
         return r.getRecipes();
     }
 

@@ -12,4 +12,6 @@ public interface WordVectorModel {
 
     int getDimension();
     int getItemDimension();
+
+    boolean contains(String ingredient);
 }

@@ -13,9 +13,6 @@ public class SimpleWordVectorModel implements WordVectorModel, Serializable {
 
     private HashMap<String, Vector<Double>> vector;
 
-    public SimpleWordVectorModel() {
-    }
-
     public SimpleWordVectorModel(String dataPath) {
         this.dataPath = dataPath;
         vector = new HashMap<>();
@@ -73,7 +70,7 @@ public class SimpleWordVectorModel implements WordVectorModel, Serializable {
             results.add(new CosineResult(vec.getValue(), word, vec.getKey()));
         }
         ArrayList<String> toReturn = new ArrayList<>(numReturn);
-        for (int i = 0; i < numReturn; i++) {
+        for (int i = 0; i < numReturn && !results.isEmpty(); i++) {
             toReturn.add(i, results.remove().word);
         }
         return toReturn;
@@ -87,6 +84,10 @@ public class SimpleWordVectorModel implements WordVectorModel, Serializable {
     public int getItemDimension(){
         return vector.entrySet().iterator().next().getValue().getSize();
 
+    }
+
+    public boolean contains(String word){
+        return vector.containsKey(word);
     }
 
     @Override
