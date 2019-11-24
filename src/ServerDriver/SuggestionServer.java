@@ -2,6 +2,7 @@ package ServerDriver;
 
 import Util.Network.NetServer;
 import Util.Network.RequestSender;
+import Util.RecipeUtils.IngredientRecommender;
 import Util.RecipeUtils.ModelTrainer.RecipeRecommender;
 import Util.RecipeUtils.Recipe;
 import Util.ResourceRepo;
@@ -33,8 +34,9 @@ public class SuggestionServer {
                     long recipeID = Long.parseLong(params.get("recipeID"));
                     int numSuggestions = Integer.parseInt(params.get("numSuggestions"));
                     String ingName = params.get("ingredientName");
+                    System.out.println("\tReceived ingredient substitute request, item: " + ingName+"\tNumber suggestions: " + numSuggestions);
                     JSONArray response = new JSONArray();
-                    response.put(vectors.getClosestMatches(ingName, numSuggestions));
+                    response.put(IngredientRecommender.getRecommendedIngredients(ingName, numSuggestions));
                     JSONObject toWrite = new JSONObject();
                     toWrite.put("substitutes", response);
                     write(toWrite.toString());
@@ -44,6 +46,9 @@ public class SuggestionServer {
 
                     // TODO: figure out how to get user favorites and store them here
                     List<Recipe> userFavorites = null;
+
+                    JSONArray recommendations = new JSONArray();
+                    JSONObject toWrite = new JSONObject();
 
                     List<Integer> favoritedRecipes = new ArrayList<>();
                     String userFavs = null;
@@ -57,13 +62,12 @@ public class SuggestionServer {
                     }
                     else {
 
+                        List<Integer> recs = RecipeRecommender.getRecipeRecommendations(userFavorites, numSuggestions);
+                        recommendations.put(recs);
+
 
                     }
 
-                    JSONArray recommendations = new JSONArray();
-                    JSONObject toWrite = new JSONObject();
-                    List<Integer> recs = RecipeRecommender.getRecipeRecommendations(userFavorites, numSuggestions);
-                    recommendations.put(recs);
 
 
                     toWrite.put("recommendations", recommendations);
