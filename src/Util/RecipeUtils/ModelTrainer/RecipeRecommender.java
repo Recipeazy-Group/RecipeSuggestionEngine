@@ -48,7 +48,7 @@ public abstract class RecipeRecommender {
             case TRAIN:
                 for (int i = 0; i < recipeVectors.columns(); i++) {
                     INDArray a = recipeVectors.getColumn(i);
-                    Double[] vals = new Double[a.length()];
+                    Double[] vals = new Double[(int)a.length()];
                     for (int j = 0; j < a.length(); j++) {
                         vals[j] = a.getDouble(j);
                     }

@@ -3,6 +3,7 @@ package ServerDriver;
 import Util.Network.NetServer;
 import Util.RecipeUtils.ModelTrainer.RecipeRecommender;
 import Util.RecipeUtils.Recipe;
+import Util.ResourceRepo;
 import Util.WordVectorization.SimpleWordVectorModel;
 import Util.WordVectorization.WordVectorModel;
 import org.json.JSONArray;
@@ -16,7 +17,7 @@ public class SuggestionServer {
     public static WordVectorModel vectors;
 
     public static void main(String[] args) {
-        vectors = new SimpleWordVectorModel("RecipeSuggestionEngine/lib/models/foodVecs.json");
+        vectors = new SimpleWordVectorModel(ResourceRepo.props.get("FOOD_VECS_PATH"));
 
         NetServer server = new NetServer(5050);
 

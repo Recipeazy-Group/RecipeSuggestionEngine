@@ -4,12 +4,14 @@ import Util.Math.Vector;
 import Util.RecipeUtils.CuisineTool;
 import Util.RecipeUtils.Readers.RecipeDatasetReader;
 import Util.RecipeUtils.Recipe;
+import Util.ResourceRepo;
 import Util.WordVectorization.SimpleWordVectorModel;
 import Util.WordVectorization.WordVectorModel;
 import org.deeplearning4j.plot.BarnesHutTsne;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dimensionalityreduction.PCA;
 import org.nd4j.linalg.factory.Nd4j;
+import org.nd4j.linalg.io.Resource;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ public class RecipeVectorizer {
     public WordVectorModel vectorModel;
 
     public static INDArray features;
-    public static final String RECIPE_VECTORS_PATH = "RecipeSuggestionEngine/lib/models/recipeVectors.bin";
+    public static final String RECIPE_VECTORS_PATH = ResourceRepo.props.get("RECIPE_VECTORS_PATH");
 
     public static INDArray getVectors(){
         try (DataInputStream sRead = new DataInputStream(new FileInputStream(new File(RECIPE_VECTORS_PATH)))) {
@@ -43,9 +45,9 @@ public class RecipeVectorizer {
     public static void main(String[] args) throws Exception {
         int num_recipes = 15;
         RecipeVectorizer recipeVectorizer = new RecipeVectorizer();
-        recipeVectorizer.setVectors(new SimpleWordVectorModel("RecipeSuggestionEngine/lib/models/foodVecs.json"));
+        recipeVectorizer.setVectors(new SimpleWordVectorModel(ResourceRepo.props.get("FOOD_VECS_PATH")));
         features = Nd4j.zeros(recipeVectorizer.vectorModel.getItemDimension(), num_recipes);
-        List<Recipe> recipes = new RecipeDatasetReader("RecipeSuggestionEngine/lib/models/train.json").getRecipes();
+        List<Recipe> recipes = new RecipeDatasetReader(ResourceRepo.props.get("RECIPE_TRAIN_JSON")).getRecipes();
         System.out.println("Got recipes.");
         int count = 0;
         for (Recipe r : recipes) {
@@ -97,7 +99,7 @@ public class RecipeVectorizer {
 
         //STEP 4: establish the tsne values and save them to a file
         //log.info("Store TSNE Coordinates for Plotting....");
-        String outputFile = "target/archive-tmp/tsne-standard-coords.csv";
+        String outputFile = ResourceRepo.props.get("TSNE_OUTPUT");
         (new File(outputFile)).getParentFile().mkdirs();
         List<String> c = new ArrayList<>();
         for(Map.Entry<CuisineTool.CUISINE, String> entry: CuisineTool.CUISINE_NAMES.entrySet())
