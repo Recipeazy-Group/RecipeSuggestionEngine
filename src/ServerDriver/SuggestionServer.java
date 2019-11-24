@@ -11,8 +11,13 @@ import Util.WordVectorization.WordVectorModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +25,8 @@ public class SuggestionServer {
 
     public static WordVectorModel vectors;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
         vectors = new SimpleWordVectorModel(ResourceRepo.props.get("FOOD_VECS_PATH"));
 
         NetServer server = new NetServer(5050);
@@ -34,40 +40,39 @@ public class SuggestionServer {
                     long recipeID = Long.parseLong(params.get("recipeID"));
                     int numSuggestions = Integer.parseInt(params.get("numSuggestions"));
                     String ingName = params.get("ingredientName");
-                    System.out.println("\tReceived ingredient substitute request, item: " + ingName+"\tNumber suggestions: " + numSuggestions);
+                    System.out.println("\tReceived ingredient substitute request, item: " + ingName + "\tNumber suggestions: " + numSuggestions);
                     JSONArray response = new JSONArray();
                     response.put(IngredientRecommender.getRecommendedIngredients(ingName, numSuggestions));
                     JSONObject toWrite = new JSONObject();
                     toWrite.put("substitutes", response);
                     write(toWrite.toString());
+
                 } else if (subroute.equals("recipes")) {
                     String userID = params.get("userID"); // Represents URI encoded email address
                     int numSuggestions = Integer.parseInt(params.get("numSuggestions"));
-
+                    System.out.println("Received recipe recommendation request for user " + userID);
                     // TODO: figure out how to get user favorites and store them here
-                    List<Recipe> userFavorites = null;
 
                     JSONArray recommendations = new JSONArray();
                     JSONObject toWrite = new JSONObject();
 
-                    List<Integer> favoritedRecipes = new ArrayList<>();
                     String userFavs = null;
                     try {
-                        userFavs = RequestSender.sendRequest(ResourceRepo.props.get("DB_API_BASEURL"), 8000, "UserFavorites/" + userID, "", "GET");
+                        userFavs = RequestSender.sendRequest("https://0e40647c-d0c2-4462-b1ac-fd44d5b88d1e.mock.pstmn.io", "UserFavorites", "", "GET");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    if(userFavs==null){
+                    if (userFavs == null) {
                         System.out.println("Error: could not get a response from the DB API for user favorite recipes.");
-                    }
-                    else {
-
-                        List<Integer> recs = RecipeRecommender.getRecipeRecommendations(userFavorites, numSuggestions);
+                    } else {
+                        JSONArray fav = new JSONArray(userFavs);
+                        List<Integer> favIDs = new LinkedList<>();
+                        for (int i = 0; i < fav.length(); i++) {
+                            favIDs.add(fav.getJSONObject(i).getInt("RecipeId"));
+                        }
+                        List<Integer> recs = RecipeRecommender.getRecipeRecommendationsFromID(favIDs, numSuggestions);
                         recommendations.put(recs);
-
-
                     }
-
 
 
                     toWrite.put("recommendations", recommendations);

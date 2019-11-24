@@ -10,7 +10,7 @@ public abstract class IngredientRecommender {
     public static Collection<String> getRecommendedIngredients(String ingredient, int numSuggestions){
         WordVectorModel vectors = SuggestionServer.vectors;
         if(!vectors.contains(ingredient)){
-            return new Collection<>();
+            return new LinkedList<>();
         }
         // We will get extra ingredients so we can filter identical ones / unrelated items out
         Collection<String> r = vectors.getClosestMatches(ingredient, numSuggestions*5);

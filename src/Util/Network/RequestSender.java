@@ -16,17 +16,23 @@ public abstract class RequestSender {
 
 
     public static String sendRequest(String IP, final int PORT, String route, String toSend, String reqType) throws IOException {
-        if (route.charAt(0) != '/') route = '/' + route;
-        URL obj = new URL(IP + ":" + PORT + route);
+        return sendRequest(IP + ":" + PORT, route, toSend, reqType);
+    }
+
+    public static String sendRequest(String address, String route, String toSend, String reqType) throws IOException {
+        if (route.charAt(0) != '/' && address.charAt(address.length() - 1) != '/') route = '/' + route;
+        URL obj = new URL(address + route);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
         con.setRequestMethod(reqType);
-        // Send post request
-        con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.writeBytes(toSend);
-        wr.flush();
-        wr.close();
+
+        if (reqType.equals("POST")) {// Send post request
+            con.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+            wr.writeBytes(toSend);
+            wr.flush();
+            wr.close();
+        }
         int responseCode = con.getResponseCode(); //should always be 200
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
@@ -38,4 +44,6 @@ public abstract class RequestSender {
         in.close();
         return response.toString();
     }
+
+
 }
