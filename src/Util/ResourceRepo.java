@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public abstract class ResourceRepo {
-    private static final String CONFIG_PATH = "config.ini";
+    private static final String CONFIG_PATH = "RecipeSuggestionEngine/config.ini";
 
     public static HashMap<String, String> props;
 
@@ -19,10 +19,11 @@ public abstract class ResourceRepo {
             String line;
             while ((line = bR.readLine()) != null) {
                 props.put(
-                        line.substring(0, line.indexOf('=')),
-                        line.substring(line.indexOf('=')+1)
+                        line.substring(0, line.indexOf('=')-1),
+                        line.substring(line.indexOf('=')+2)
                 );
             }
+            bR.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

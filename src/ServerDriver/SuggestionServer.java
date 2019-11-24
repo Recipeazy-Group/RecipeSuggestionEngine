@@ -1,6 +1,7 @@
 package ServerDriver;
 
 import Util.Network.NetServer;
+import Util.Network.RequestSender;
 import Util.RecipeUtils.ModelTrainer.RecipeRecommender;
 import Util.RecipeUtils.Recipe;
 import Util.ResourceRepo;
@@ -9,6 +10,8 @@ import Util.WordVectorization.WordVectorModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,14 +38,27 @@ public class SuggestionServer {
                     JSONObject toWrite = new JSONObject();
                     toWrite.put("substitutes", response);
                     write(toWrite.toString());
-                }
-                else if(subroute.equals("recipes")){
-                    long userID = Long.parseLong(params.get("userID"));
+                } else if (subroute.equals("recipes")) {
+                    String userID = params.get("userID"); // Represents URI encoded email address
                     int numSuggestions = Integer.parseInt(params.get("numSuggestions"));
 
                     // TODO: figure out how to get user favorites and store them here
                     List<Recipe> userFavorites = null;
 
+                    List<Integer> favoritedRecipes = new ArrayList<>();
+                    String userFavs = null;
+                    try {
+                        userFavs = RequestSender.sendRequest(ResourceRepo.props.get("DB_API_BASEURL"), 8000, "UserFavorites/" + userID, "", "GET");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if(userFavs==null){
+                        System.out.println("Error: could not get a response from the DB API for user favorite recipes.");
+                    }
+                    else {
+
+
+                    }
 
                     JSONArray recommendations = new JSONArray();
                     JSONObject toWrite = new JSONObject();
