@@ -48,6 +48,10 @@ public class RecipeDisplaySetReader {
                     if (ingredientVocab.contains(longestPossibleIng + token)) {
                         longestPossibleIng += token;
                     }
+                    else if(ingredientVocab.contains(token) && token.length() > longestPossibleIng.length())
+                    {
+                        longestPossibleIng = token;
+                    }
                 }
                 ings.add(longestPossibleIng);
             }
