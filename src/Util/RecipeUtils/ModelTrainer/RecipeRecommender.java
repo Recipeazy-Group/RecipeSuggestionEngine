@@ -7,10 +7,7 @@ import Util.WordVectorization.SimpleWordVectorModel;
 import Util.WordVectorization.WordVectorModel;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class RecipeRecommender {
     public static INDArray recipeVectors;
@@ -36,7 +33,7 @@ public abstract class RecipeRecommender {
         }
         sum.normalize();
         // Now perform the cosine comparison between user vector and all recipes
-        var a = recipeVecs.getClosestMatches(sum, num);
+         Collection<String> a = recipeVecs.getClosestMatches(sum, num);
         ArrayList<Integer> toReturn = new ArrayList<>();
         for (String s : a) {
             toReturn.add(Integer.parseInt(s));

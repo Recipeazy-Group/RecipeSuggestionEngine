@@ -11,7 +11,7 @@ import java.util.List;
 
 public abstract class RecipeVectorBuilder {
 
-    public static final String SAVE_LOCATION = "RecipeSuggestionEngine/lib/models/recipeVectors.bin";
+    public static final String SAVE_LOCATION = "lib/models/recipeVectors.bin";
 
     public static SimpleWordVectorModel readVectors() {
         try {
@@ -27,7 +27,7 @@ public abstract class RecipeVectorBuilder {
     public static void main(String[] args) throws Exception {
         // This will build a SimpleWordVectorModel for Recipes a.k.a. a SimpleRecipeVectorModel
         System.out.println("Generating recipe vectors.");
-        SimpleWordVectorModel vectors = new SimpleWordVectorModel("RecipeSuggestionEngine/lib/models/foodVecs.json");
+        SimpleWordVectorModel vectors = new SimpleWordVectorModel("lib/models/foodVecs.json");
         List<Recipe> dataset = loadDataset(vectors);
         System.out.println("\tDataset loaded");
         HashMap<String, Vector<Double>> toBuild = new HashMap<>();
@@ -45,7 +45,7 @@ public abstract class RecipeVectorBuilder {
     }
 
     public static List<Recipe> loadDataset(SimpleWordVectorModel vectors) throws Exception {
-        RecipeDisplaySetReader r = new RecipeDisplaySetReader("RecipeSuggestionEngine/lib/models/recipes.json", vectors);
+        RecipeDisplaySetReader r = new RecipeDisplaySetReader("lib/models/recipes.json", vectors);
         return r.getRecipes(15);
     }
 

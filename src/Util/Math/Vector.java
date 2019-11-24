@@ -1,8 +1,9 @@
 package Util.Math;
 
+import java.io.Serializable;
 import java.util.Collection;
 
-public class Vector<T> {
+public class Vector<T> implements Serializable {
     private T[] data;
 
     private final Class type;
