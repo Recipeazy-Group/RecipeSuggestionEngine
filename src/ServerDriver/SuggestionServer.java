@@ -1,11 +1,14 @@
 package ServerDriver;
 
 import Util.Network.NetServer;
+import Util.RecipeUtils.ModelTrainer.RecipeRecommender;
+import Util.RecipeUtils.Recipe;
 import Util.WordVectorization.SimpleWordVectorModel;
 import Util.WordVectorization.WordVectorModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Map;
 
 public class SuggestionServer {
@@ -36,7 +39,18 @@ public class SuggestionServer {
                     long userID = Long.parseLong(params.get("userID"));
                     int numSuggestions = Integer.parseInt(params.get("numSuggestions"));
 
+                    // TODO: figure out how to get user favorites and store them here
+                    List<Recipe> userFavorites = null;
 
+
+                    JSONArray recommendations = new JSONArray();
+                    JSONObject toWrite = new JSONObject();
+                    List<Integer> recs = RecipeRecommender.getRecipeRecommendations(userFavorites, numSuggestions);
+                    recommendations.put(recs);
+
+
+                    toWrite.put("recommendations", recommendations);
+                    write(toWrite.toString());
 
                     // Recommendation strategy: get composite vector of recent user recipes
                     // then do simple vec comparison again
