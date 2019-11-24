@@ -1,5 +1,6 @@
-package Util.RecipeUtils;
+package Util.RecipeUtils.Readers;
 
+import Util.RecipeUtils.Recipe;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -10,10 +11,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RecipeReader {
+public class RecipeDatasetReader {
     JSONArray recipeJSON;
 
-    public RecipeReader(String path) throws Exception {
+    public RecipeDatasetReader(String path) throws Exception {
         BufferedReader bR = new BufferedReader(new FileReader(new File(path)));
         String line;
         LinkedList<String> text = new LinkedList<>();

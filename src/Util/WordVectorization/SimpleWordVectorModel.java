@@ -97,6 +97,14 @@ public class SimpleWordVectorModel implements WordVectorModel {
         return new CosineResult(w1, w2, "N/A").cosDistance;
     }
 
+    public HashSet<String> getWordVocab(){
+        HashSet<String> toReturn = new HashSet<>();
+        for(Map.Entry<String, Vector<Double>> entry : vector.entrySet()){
+            toReturn.add(entry.getKey());
+        }
+        return toReturn;
+    }
+
     @Override
     public int getDimension() {
         return vector.size();

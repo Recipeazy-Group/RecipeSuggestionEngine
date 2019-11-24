@@ -1,9 +1,9 @@
-package Executables;
+package Util.RecipeUtils.ModelTrainer;
 
 import Util.Math.Vector;
 import Util.RecipeUtils.CuisineTool;
+import Util.RecipeUtils.Readers.RecipeDatasetReader;
 import Util.RecipeUtils.Recipe;
-import Util.RecipeUtils.RecipeReader;
 import Util.WordVectorization.SimpleWordVectorModel;
 import Util.WordVectorization.WordVectorModel;
 import org.deeplearning4j.plot.BarnesHutTsne;
@@ -45,7 +45,7 @@ public class RecipeVectorizer {
         RecipeVectorizer recipeVectorizer = new RecipeVectorizer();
         recipeVectorizer.setVectors(new SimpleWordVectorModel("RecipeSuggestionEngine/lib/models/foodVecs.json"));
         features = Nd4j.zeros(recipeVectorizer.vectorModel.getItemDimension(), num_recipes);
-        List<Recipe> recipes = new RecipeReader("RecipeSuggestionEngine/lib/models/train.json").getRecipes();
+        List<Recipe> recipes = new RecipeDatasetReader("RecipeSuggestionEngine/lib/models/train.json").getRecipes();
         System.out.println("Got recipes.");
         int count = 0;
         for (Recipe r : recipes) {
@@ -93,7 +93,6 @@ public class RecipeVectorizer {
                 .normalize(false)
                 .learningRate(500)
                 .useAdaGrad(false)
-//                .usePca(false)
                 .build();
 
         //STEP 4: establish the tsne values and save them to a file

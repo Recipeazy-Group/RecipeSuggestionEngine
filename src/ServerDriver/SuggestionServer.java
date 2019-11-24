@@ -1,4 +1,4 @@
-package Executables;
+package ServerDriver;
 
 import Util.Network.NetServer;
 import Util.WordVectorization.SimpleWordVectorModel;

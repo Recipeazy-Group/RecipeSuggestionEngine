@@ -1,6 +1,6 @@
 package Util.RecipeUtils;
 
-import Executables.SuggestionServer;
+import ServerDriver.SuggestionServer;
 import Util.Math.Vector;
 
 import java.util.ArrayList;

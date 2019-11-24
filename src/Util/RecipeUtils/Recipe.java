@@ -18,4 +18,9 @@ public class Recipe {
             this.ingredients.add(ing);
         }
     }
+
+    public Recipe(ArrayList<String> ingredients, int ID){
+        this(ingredients);
+        this.ID = ID;
+    }
 }
