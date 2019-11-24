@@ -1,4 +1,4 @@
-package Util.RecipeUtils.DeepLearning;
+package Util.RecipeUtils.ModelTrainer;
 
 import Util.Math.Vector;
 import Util.RecipeUtils.CuisineTool;
