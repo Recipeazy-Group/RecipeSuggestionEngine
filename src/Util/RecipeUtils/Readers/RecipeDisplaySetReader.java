@@ -38,6 +38,8 @@ public class RecipeDisplaySetReader {
         ArrayList<Recipe> toReturn = new ArrayList<>();
         for (int i = 0; i < num && i < recipeJSON.length(); i++) {
             ArrayList<String> ings = new ArrayList<>();
+            if(!recipeJSON.getJSONObject(i).has("ingredients"))
+                continue;
             JSONArray in = recipeJSON.getJSONObject(i).getJSONArray("ingredients");
             for (int j = 0; j < in.length(); j++) {
                 String raw = (in.getString(j));
@@ -55,7 +57,7 @@ public class RecipeDisplaySetReader {
                 }
                 ings.add(longestPossibleIng);
             }
-            toReturn.add(new Recipe(ings, i, recipeJSON.getJSONObject(i).getString("title")));
+            toReturn.add(new Recipe(ings, i+1, recipeJSON.getJSONObject(i).getString("title")));
         }
         return toReturn;
     }

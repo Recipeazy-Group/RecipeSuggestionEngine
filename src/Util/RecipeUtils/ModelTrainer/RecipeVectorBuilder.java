@@ -46,7 +46,7 @@ public abstract class RecipeVectorBuilder {
 
     public static List<Recipe> loadDataset(SimpleWordVectorModel vectors) throws Exception {
         RecipeDisplaySetReader r = new RecipeDisplaySetReader("lib/models/recipes.json", vectors);
-        return r.getRecipes(15);
+        return r.getRecipes();
     }
 
 }
