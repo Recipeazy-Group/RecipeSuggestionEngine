@@ -107,4 +107,16 @@ public class Vector<T> {
         return new Vector<Double>(d);
     }
 
+    public Vector<T> scale(double c){
+        if(operationalTypeCheck())
+            throw new RuntimeException("Vector: current element type " + type + " is not supported by scale(..)");
+        Vector<T> toReturn = new Vector<>(data);
+        for(int i=0; i<size; i++){
+            Double nVal = (Double) data[i];
+            nVal *= c;
+            toReturn.data[i] = (T)nVal;
+        }
+        return toReturn;
+    }
+
 }

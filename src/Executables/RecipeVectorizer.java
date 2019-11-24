@@ -11,10 +11,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dimensionalityreduction.PCA;
 import org.nd4j.linalg.factory.Nd4j;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +20,18 @@ public class RecipeVectorizer {
     public WordVectorModel vectorModel;
 
     public static INDArray features;
+    public static final String RECIPE_VECTORS_PATH = "RecipeSuggestionEngine/lib/models/recipeVectors.bin";
+
+    public static INDArray getVectors(){
+        try (DataInputStream sRead = new DataInputStream(new FileInputStream(new File(RECIPE_VECTORS_PATH)))) {
+            return Nd4j.read(sRead);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public RecipeVectorizer() {
     }
@@ -45,7 +54,7 @@ public class RecipeVectorizer {
             recipeVectorizer.putRecipe(count++, b);
         }
         System.out.println("Writing results...");
-        try (DataOutputStream sWrite = new DataOutputStream(new FileOutputStream(new File("RecipeSuggestionEngine/lib/models/recipeVectors.bin")))) {
+        try (DataOutputStream sWrite = new DataOutputStream(new FileOutputStream(new File(RECIPE_VECTORS_PATH)))) {
             Nd4j.write(recipeVectorizer.features, sWrite);
         }
         System.out.println("Writing complete.");

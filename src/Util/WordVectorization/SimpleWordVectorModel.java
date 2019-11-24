@@ -22,6 +22,11 @@ public class SimpleWordVectorModel implements WordVectorModel {
         load();
     }
 
+    public SimpleWordVectorModel(HashMap<String, Vector<Double>> v){
+        vector = v;
+        dataPath = "local";
+    }
+
     public void load() {
         if (dataPath != null) load(dataPath);
         else throw new RuntimeException("SimpleWordVector: load without path set attempted.");
