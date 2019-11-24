@@ -8,7 +8,6 @@ import Util.RecipeUtils.Recipe;
 import Util.ResourceRepo;
 import Util.WordVectorization.SimpleWordVectorModel;
 import Util.WordVectorization.WordVectorModel;
-import jdk.jshell.SourceCodeAnalysis;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
 import java.util.*;
@@ -23,7 +22,7 @@ public abstract class RecipeRecommender {
     private transient static HashMap<String, Integer> ingredientFrequency;
     private transient static HashMap<CuisineTool.CUISINE, Integer> cuisineFrequency;
 
-    static {
+    public static void init() {
         System.out.println("Initializing recipe database.");
         recipeDB = new HashMap<>();
         try {
@@ -31,14 +30,23 @@ public abstract class RecipeRecommender {
             for (Recipe r : recipeList) {
                 recipeDB.put(r.ID, r);
             }
+            System.out.println("Recipe database initialized.");
         } catch (Exception e) {
             e.printStackTrace();
         }
+        initRecipeVecs(MODE);
+        foodVec = SuggestionServer.vectors;
+    }
+
+    static {
+
     }
 
     private enum DEV_STATE {
         TRAIN, DEPLOY
     }
+
+    final static DEV_STATE MODE = DEV_STATE.DEPLOY;
 
     public static List<Integer> getRecipeRecommendationsFromID(List<Integer> userRecipeIDs, int num) {
         List<Recipe> recipes = new LinkedList<>();
@@ -50,8 +58,6 @@ public abstract class RecipeRecommender {
 
     public static List<Integer> getRecipeRecommendations(List<Recipe> userRecipes, int num) {
         loadPreferenceMaps(userRecipes);
-        if (recipeVecs == null)
-            initRecipeVecs(DEV_STATE.DEPLOY);
         // Now construct the user preference vector
         // via the use of a fake, placeholder recipe
         Vector<Double> sum = Vector.zeros(recipeVecs.getItemDimension());
@@ -90,8 +96,8 @@ public abstract class RecipeRecommender {
     }
 
     private static void loadPreferenceMaps(List<Recipe> favoritedRecipes) {
-        if (recipeVectors == null) {
-            System.out.println("Initializing recipe vectors for UserAnalyzer...");
+        if (recipeVectors == null && MODE == DEV_STATE.TRAIN) {
+            System.out.println("Initializing recipe vectors for RecipeRecommender...");
             recipeVectors = RecipeVectorizer.getVectors();
         }
 

@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.*;
 
 public class SimpleWordVectorModel implements WordVectorModel, Serializable {
-    private String dataPath;
+    private transient String dataPath;
 
     private HashMap<String, Vector<Double>> vector;
 

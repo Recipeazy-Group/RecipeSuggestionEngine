@@ -35,7 +35,7 @@ public class RecipeDisplaySetReader {
     }
 
     public List<Recipe> getRecipes(int num) {
-        ArrayList<Recipe> toReturn = new ArrayList<>();
+        LinkedList<Recipe> toReturn = new LinkedList<>();
         for (int i = 0; i < num && i < recipeJSON.length(); i++) {
             ArrayList<String> ings = new ArrayList<>();
             if(!recipeJSON.getJSONObject(i).has("ingredients"))

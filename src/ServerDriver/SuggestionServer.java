@@ -4,6 +4,7 @@ import Util.Network.NetServer;
 import Util.Network.RequestSender;
 import Util.RecipeUtils.IngredientRecommender;
 import Util.RecipeUtils.ModelTrainer.RecipeRecommender;
+import Util.RecipeUtils.ModelTrainer.RecipeVectorBuilder;
 import Util.RecipeUtils.Recipe;
 import Util.ResourceRepo;
 import Util.WordVectorization.SimpleWordVectorModel;
@@ -28,6 +29,9 @@ public class SuggestionServer {
     public static void main(String[] args) throws IOException {
 
         vectors = new SimpleWordVectorModel(ResourceRepo.props.get("FOOD_VECS_PATH"));
+        RecipeRecommender.init();
+
+        System.out.println("INITIALIZATIONS COMPLETE!\n\n");
 
         NetServer server = new NetServer(5050);
 
@@ -51,7 +55,6 @@ public class SuggestionServer {
                     String userID = params.get("userID"); // Represents URI encoded email address
                     int numSuggestions = Integer.parseInt(params.get("numSuggestions"));
                     System.out.println("Received recipe recommendation request for user " + userID);
-                    // TODO: figure out how to get user favorites and store them here
 
                     JSONArray recommendations = new JSONArray();
                     JSONObject toWrite = new JSONObject();
@@ -73,7 +76,6 @@ public class SuggestionServer {
                         List<Integer> recs = RecipeRecommender.getRecipeRecommendationsFromID(favIDs, numSuggestions);
                         recommendations.put(recs);
                     }
-
 
                     toWrite.put("recommendations", recommendations);
                     write(toWrite.toString());

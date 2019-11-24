@@ -17,9 +17,13 @@ public class RecipeVectorBuilder {
     public static SimpleWordVectorModel readVectors() {
         try {
             ObjectInputStream oI = new ObjectInputStream(new FileInputStream(new File(SAVE_LOCATION)));
-            return (SimpleWordVectorModel) oI.readObject();
+            SimpleWordVectorModel toReturn =  (SimpleWordVectorModel) oI.readObject();
+            oI.close();
+            System.out.println("Read vectors successfully.");
+            return toReturn;
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Corrupted vectors file. Deleting...");
         }
         System.out.println("Vectors could not be read from " + SAVE_LOCATION);
         return null;
