@@ -1,6 +1,6 @@
 package PropertyClassifiers;
 
-import Driver.SuggestionServer;
+import Executables.SuggestionServer;
 import Util.Math.Vector;
 import Util.RecipeUtils.CuisineTool;
 

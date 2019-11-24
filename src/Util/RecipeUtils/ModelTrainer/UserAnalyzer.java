@@ -17,7 +17,6 @@ public class UserAnalyzer {
             for (String i : r.ingredients) {
                 ingredientFrequency.put(i,
                         ingredientFrequency.containsKey(i) ? ingredientFrequency.get(i) + 1 : 1);
-
             }
             cuisineFrequency.put(r.cuisine, cuisineFrequency.containsKey(r.cuisine) ? cuisineFrequency.get(r.cuisine) + 1 : 1);
         }

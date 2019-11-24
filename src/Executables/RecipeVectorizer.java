@@ -1,4 +1,4 @@
-package Util.RecipeUtils.ModelTrainer;
+package Executables;
 
 import Util.Math.Vector;
 import Util.RecipeUtils.CuisineTool;
