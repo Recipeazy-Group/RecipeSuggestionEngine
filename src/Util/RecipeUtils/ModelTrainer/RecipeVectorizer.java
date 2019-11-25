@@ -51,8 +51,8 @@ public class RecipeVectorizer {
         System.out.println("Got recipes.");
         int count = 0;
         for (Recipe r : recipes) {
-            var a = recipeVectorizer.getRecipeVector(r);
-            var b = recipeVectorizer.recipeToColVec(a);
+            Vector<Double> a = recipeVectorizer.getRecipeVector(r);
+            INDArray b = recipeVectorizer.recipeToColVec(a);
             recipeVectorizer.putRecipe(count++, b);
         }
         System.out.println("Writing results...");

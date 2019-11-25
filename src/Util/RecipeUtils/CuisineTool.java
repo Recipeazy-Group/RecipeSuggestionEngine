@@ -1,25 +1,28 @@
 package Util.RecipeUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static java.util.Map.entry;
-
 public abstract class CuisineTool {
 
-    public static final Map<CUISINE, String> CUISINE_NAMES = Map.ofEntries(
-            entry(CUISINE.NORTH_AMERICAN, "north american"),
-            entry(CUISINE.LATIN_AMERICAN, "latin american"),
-            entry(CUISINE.WESTERN_EUROPEAN, "western european"),
-            entry(CUISINE.SOUTHERN_EUROPEAN, "southern european"),
-            entry(CUISINE.EASTERN_EUROPEAN, "eastern european"),
-            entry(CUISINE.NORTHERN_EUROPEAN, "northern european"),
-            entry(CUISINE.MIDDLE_EASTERN, "middle eastern"),
-            entry(CUISINE.AFRICAN, "african"),
-            entry(CUISINE.EAST_ASIAN, "east asian"),
-            entry(CUISINE.SOUTHEAST_ASIAN, "southeast asian"),
-            entry(CUISINE.SOUTH_ASIAN, "south asian")
-    );
+    public static Map<CUISINE, String> CUISINE_NAMES;
+
+    static {
+        CUISINE_NAMES = new HashMap<>();
+        CUISINE_NAMES.put(CUISINE.NORTH_AMERICAN, "north american");
+        CUISINE_NAMES.put(CUISINE.LATIN_AMERICAN, "latin american");
+        CUISINE_NAMES.put(CUISINE.WESTERN_EUROPEAN, "western european");
+        CUISINE_NAMES.put(CUISINE.SOUTHERN_EUROPEAN, "southern european");
+        CUISINE_NAMES.put(CUISINE.EASTERN_EUROPEAN, "eastern european");
+        CUISINE_NAMES.put(CUISINE.NORTHERN_EUROPEAN, "northern european");
+        CUISINE_NAMES.put(CUISINE.MIDDLE_EASTERN, "middle eastern");
+        CUISINE_NAMES.put(CUISINE.AFRICAN, "african");
+        CUISINE_NAMES.put(CUISINE.EAST_ASIAN, "east asian");
+        CUISINE_NAMES.put(CUISINE.SOUTHEAST_ASIAN, "southeast asian");
+        CUISINE_NAMES.put(CUISINE.SOUTH_ASIAN, "south asian");
+    }
+
 
     public static final Map<String, CUISINE> NAME_CUISINES = CUISINE_NAMES.entrySet().stream()
             .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));         //Represents cuisineNames with keys / values flipped
