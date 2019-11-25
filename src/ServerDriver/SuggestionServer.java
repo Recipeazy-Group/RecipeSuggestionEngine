@@ -76,7 +76,7 @@ public class SuggestionServer {
                         List<Integer> recs = RecipeRecommender.getRecipeRecommendationsFromID(favIDs, numSuggestions);
                         recommendations.put(recs);
                     }
-
+                    System.out.println("Replying with recipe recommendations...");
                     toWrite.put("recommendations", recommendations);
                     write(toWrite.toString());
 

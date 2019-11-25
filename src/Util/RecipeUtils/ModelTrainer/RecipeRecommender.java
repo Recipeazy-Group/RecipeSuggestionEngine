@@ -49,6 +49,17 @@ public abstract class RecipeRecommender {
     final static DEV_STATE MODE = DEV_STATE.DEPLOY;
 
     public static List<Integer> getRecipeRecommendationsFromID(List<Integer> userRecipeIDs, int num) {
+//
+//        System.out.println("REMOVE THIS CODE LATER");
+//        System.out.println("Input 1: " + recipeDB.get(1).title);
+//        System.out.println("Suggestion 1: " +recipeDB.get(12227).title);
+//
+//        System.out.println("Suggestion 2: " +recipeDB.get(4957).title);
+//
+//        System.out.println("Suggestion 3: " +recipeDB.get(16199).title);
+//
+//        System.out.println("END REMOVE");
+
         List<Recipe> recipes = new LinkedList<>();
         for (int i : userRecipeIDs) {
             recipes.add(recipeDB.get(i));
