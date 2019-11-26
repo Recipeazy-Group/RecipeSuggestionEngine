@@ -105,6 +105,7 @@ public class NetServer {
                 composite += s + ' ';
             }
             try {
+                exchange.getResponseHeaders().set("Content-Type", "application/json");
                 exchange.sendResponseHeaders(responseCode, composite.length());
                 os.write(composite.getBytes());
             } catch (IOException e) {
