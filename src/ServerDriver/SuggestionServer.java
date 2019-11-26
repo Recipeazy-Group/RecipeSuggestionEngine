@@ -4,20 +4,12 @@ import Util.Network.NetServer;
 import Util.Network.RequestSender;
 import Util.RecipeUtils.IngredientRecommender;
 import Util.RecipeUtils.ModelTrainer.RecipeRecommender;
-import Util.RecipeUtils.ModelTrainer.RecipeVectorBuilder;
-import Util.RecipeUtils.Recipe;
 import Util.ResourceRepo;
 import Util.WordVectorization.SimpleWordVectorModel;
 import Util.WordVectorization.WordVectorModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -41,11 +33,30 @@ public class SuggestionServer {
             public void actionGET(Map<String, String> params) {
                 String subroute = getSubroute();
                 if (subroute.equals("ingredients")) {
-                    long recipeID = Long.parseLong(params.get("recipeID"));
-                    int numSuggestions = Integer.parseInt(params.get("numSuggestions"));
+                    long recipeID = -1;
+                    int numSuggestions = 5;
+                    try {
+                        recipeID = Long.parseLong(params.get("recipeID"));
+                        numSuggestions = Integer.parseInt(params.get("numSuggestions"));
+
+                    } catch (Exception e) {
+                        System.out.println("\tWarning: either recipeID or numSuggestions could not be parsed.");
+                    }
+
+                    boolean parse = false;
                     String ingName = params.get("ingredientName");
+                    if (params.containsKey("parse")) {
+                        if (params.get("parse").equals("1")) {
+                            System.out.println("\tParsing ingredient name for:" + ingName);
+                            parse=true;
+                        }
+                    }
+
                     System.out.println("\tReceived ingredient substitute request, item: " + ingName + "\tNumber suggestions: " + numSuggestions);
                     JSONArray response = new JSONArray();
+                    if(parse){
+                        ingName = IngredientRecommender.parseIngredientText(ingName, ((SimpleWordVectorModel)vectors).getWordVocab());
+                    }
                     response.put(IngredientRecommender.getRecommendedIngredients(ingName, numSuggestions));
                     JSONObject toWrite = new JSONObject();
                     toWrite.put("substitutes", response);

@@ -1,10 +1,10 @@
 package Util.RecipeUtils;
 
 import ServerDriver.SuggestionServer;
+import Util.WordVectorization.SimpleWordVectorModel;
 import Util.WordVectorization.WordVectorModel;
 
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.*;
 
 public abstract class IngredientRecommender {
     public static Collection<String> getRecommendedIngredients(String ingredient, int numSuggestions) {
@@ -31,5 +31,25 @@ public abstract class IngredientRecommender {
             }
         }
         return toReturn;
+    }
+
+    public static String parseIngredientText(String ingName, HashSet<String> ingredientVocab) {
+        StringTokenizer sT = new StringTokenizer(ingName);
+        String longestPossibleIng = "";
+        while (sT.hasMoreTokens()) {
+            String tok = sT.nextToken();
+            ArrayList<String> processedToks = new ArrayList<>();
+            processedToks.add(tok);
+            if (tok.endsWith("s"))
+                processedToks.add(tok.substring(0, tok.length() - 1));
+            for (String token : processedToks) {
+                if (ingredientVocab.contains(longestPossibleIng + token)) {
+                    longestPossibleIng += token;
+                } else if (ingredientVocab.contains(token) && token.length() > longestPossibleIng.length()) {
+                    longestPossibleIng = token;
+                }
+            }
+        }
+        return longestPossibleIng;
     }
 }

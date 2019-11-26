@@ -1,5 +1,6 @@
 package Util.RecipeUtils.Readers;
 
+import Util.RecipeUtils.IngredientRecommender;
 import Util.RecipeUtils.Recipe;
 import Util.WordVectorization.SimpleWordVectorModel;
 import org.json.JSONArray;
@@ -43,24 +44,24 @@ public class RecipeDisplaySetReader {
             JSONArray in = recipeJSON.getJSONObject(i).getJSONArray("ingredients");
             for (int j = 0; j < in.length(); j++) {
                 String raw = (in.getString(j));
-                StringTokenizer sT = new StringTokenizer(raw);
                 String longestPossibleIng = "";
                 if (dictionaryLookup) {
-                    while (sT.hasMoreTokens()) {
-                        String tok = sT.nextToken();
-
-                        ArrayList<String> processedToks = new ArrayList<>();
-                        processedToks.add(tok);
-                        if (tok.endsWith("s"))
-                            processedToks.add(tok.substring(0, tok.length() - 1));
-                        for (String token : processedToks) {
-                            if (ingredientVocab.contains(longestPossibleIng + token)) {
-                                longestPossibleIng += token;
-                            } else if (ingredientVocab.contains(token) && token.length() > longestPossibleIng.length()) {
-                                longestPossibleIng = token;
-                            }
-                        }
-                    }
+                    longestPossibleIng = IngredientRecommender.parseIngredientText(raw, ingredientVocab);
+//                    while (sT.hasMoreTokens()) {
+//                        String tok = sT.nextToken();
+//
+//                        ArrayList<String> processedToks = new ArrayList<>();
+//                        processedToks.add(tok);
+//                        if (tok.endsWith("s"))
+//                            processedToks.add(tok.substring(0, tok.length() - 1));
+//                        for (String token : processedToks) {
+//                            if (ingredientVocab.contains(longestPossibleIng + token)) {
+//                                longestPossibleIng += token;
+//                            } else if (ingredientVocab.contains(token) && token.length() > longestPossibleIng.length()) {
+//                                longestPossibleIng = token;
+//                            }
+//                        }
+//                    }
                 }
                 else longestPossibleIng = raw;
                 ings.add(longestPossibleIng);
