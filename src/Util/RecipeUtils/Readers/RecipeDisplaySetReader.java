@@ -38,7 +38,7 @@ public class RecipeDisplaySetReader {
         LinkedList<Recipe> toReturn = new LinkedList<>();
         for (int i = 0; i < num && i < recipeJSON.length(); i++) {
             ArrayList<String> ings = new ArrayList<>();
-            if(!recipeJSON.getJSONObject(i).has("ingredients"))
+            if (!recipeJSON.getJSONObject(i).has("ingredients"))
                 continue;
             JSONArray in = recipeJSON.getJSONObject(i).getJSONArray("ingredients");
             for (int j = 0; j < in.length(); j++) {
@@ -46,18 +46,22 @@ public class RecipeDisplaySetReader {
                 StringTokenizer sT = new StringTokenizer(raw);
                 String longestPossibleIng = "";
                 while (sT.hasMoreTokens()) {
-                    String token = sT.nextToken();
-                    if (ingredientVocab.contains(longestPossibleIng + token)) {
-                        longestPossibleIng += token;
-                    }
-                    else if(ingredientVocab.contains(token) && token.length() > longestPossibleIng.length())
-                    {
-                        longestPossibleIng = token;
+                    String tok = sT.nextToken();
+                    ArrayList<String> processedToks = new ArrayList<>();
+                    processedToks.add(tok);
+                    if (tok.endsWith("s"))
+                        processedToks.add(tok.substring(0, tok.length() - 1));
+                    for (String token : processedToks) {
+                        if (ingredientVocab.contains(longestPossibleIng + token)) {
+                            longestPossibleIng += token;
+                        } else if (ingredientVocab.contains(token) && token.length() > longestPossibleIng.length()) {
+                            longestPossibleIng = token;
+                        }
                     }
                 }
                 ings.add(longestPossibleIng);
             }
-            toReturn.add(new Recipe(ings, i+1, recipeJSON.getJSONObject(i).getString("title")));
+            toReturn.add(new Recipe(ings, i + 1, recipeJSON.getJSONObject(i).getString("title")));
         }
         return toReturn;
     }
