@@ -1,7 +1,6 @@
-package Util.RecipeUtils.ModelTrainer;
+package Util.DataParsers;
 
-import ServerDriver.SuggestionServer;
-import Util.RecipeUtils.Readers.RecipeDisplaySetReader;
+import Util.Readers.RecipeDisplaySetReader;
 import Util.RecipeUtils.Recipe;
 import Util.ResourceRepo;
 import Util.WordVectorization.SimpleWordVectorModel;

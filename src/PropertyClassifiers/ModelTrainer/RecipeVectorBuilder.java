@@ -1,7 +1,7 @@
-package Util.RecipeUtils.ModelTrainer;
+package PropertyClassifiers.ModelTrainer;
 
 import Util.Math.Vector;
-import Util.RecipeUtils.Readers.RecipeDisplaySetReader;
+import Util.Readers.RecipeDisplaySetReader;
 import Util.RecipeUtils.Recipe;
 import Util.ResourceRepo;
 import Util.WordVectorization.SimpleWordVectorModel;

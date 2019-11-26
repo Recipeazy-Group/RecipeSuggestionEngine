@@ -1,4 +1,4 @@
-package Util.RecipeUtils.Readers;
+package Util.Readers;
 
 import Util.RecipeUtils.Recipe;
 import org.json.JSONArray;

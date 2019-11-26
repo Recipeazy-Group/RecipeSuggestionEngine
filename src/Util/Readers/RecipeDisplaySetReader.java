@@ -1,4 +1,4 @@
-package Util.RecipeUtils.Readers;
+package Util.Readers;
 
 import Util.RecipeUtils.IngredientRecommender;
 import Util.RecipeUtils.Recipe;

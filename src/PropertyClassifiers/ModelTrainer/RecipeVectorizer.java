@@ -1,8 +1,8 @@
-package Util.RecipeUtils.ModelTrainer;
+package PropertyClassifiers.ModelTrainer;
 
 import Util.Math.Vector;
 import Util.RecipeUtils.CuisineTool;
-import Util.RecipeUtils.Readers.RecipeDatasetReader;
+import Util.Readers.RecipeDatasetReader;
 import Util.RecipeUtils.Recipe;
 import Util.ResourceRepo;
 import Util.WordVectorization.SimpleWordVectorModel;
@@ -11,7 +11,6 @@ import org.deeplearning4j.plot.BarnesHutTsne;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dimensionalityreduction.PCA;
 import org.nd4j.linalg.factory.Nd4j;
-import org.nd4j.linalg.io.Resource;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package ServerDriver;
 import Util.Network.NetServer;
 import Util.Network.RequestSender;
 import Util.RecipeUtils.IngredientRecommender;
-import Util.RecipeUtils.ModelTrainer.RecipeRecommender;
+import PropertyClassifiers.ModelTrainer.RecipeRecommender;
 import Util.RecipeUtils.Recipe;
 import Util.ResourceRepo;
 import Util.WordVectorization.SimpleWordVectorModel;
