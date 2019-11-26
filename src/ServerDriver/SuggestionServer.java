@@ -2,7 +2,7 @@ package ServerDriver;
 
 import Util.Network.NetServer;
 import Util.Network.RequestSender;
-import Util.RecipeUtils.IngredientRecommender;
+import PropertyClassifiers.IngredientRecommender;
 import PropertyClassifiers.ModelTrainer.RecipeRecommender;
 import Util.RecipeUtils.Recipe;
 import Util.ResourceRepo;

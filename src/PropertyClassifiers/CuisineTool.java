@@ -1,4 +1,4 @@
-package Util.RecipeUtils;
+package PropertyClassifiers;
 
 import java.util.HashMap;
 import java.util.Map;

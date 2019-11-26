@@ -1,6 +1,6 @@
 package Util.Readers;
 
-import Util.RecipeUtils.IngredientRecommender;
+import PropertyClassifiers.IngredientRecommender;
 import Util.RecipeUtils.Recipe;
 import Util.WordVectorization.SimpleWordVectorModel;
 import org.json.JSONArray;

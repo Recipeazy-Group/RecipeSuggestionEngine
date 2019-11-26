@@ -1,4 +1,4 @@
-package Util.RecipeUtils;
+package PropertyClassifiers;
 
 import ServerDriver.SuggestionServer;
 import Util.Math.Vector;

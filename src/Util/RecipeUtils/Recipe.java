@@ -1,5 +1,6 @@
 package Util.RecipeUtils;
 
+import PropertyClassifiers.CuisineTool;
 import Util.Math.Vector;
 import Util.WordVectorization.SimpleWordVectorModel;
 

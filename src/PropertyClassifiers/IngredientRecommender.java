@@ -1,7 +1,6 @@
-package Util.RecipeUtils;
+package PropertyClassifiers;
 
 import ServerDriver.SuggestionServer;
-import Util.WordVectorization.SimpleWordVectorModel;
 import Util.WordVectorization.WordVectorModel;
 
 import java.util.*;

@@ -2,7 +2,7 @@ package PropertyClassifiers.ModelTrainer;
 
 import ServerDriver.SuggestionServer;
 import Util.Math.Vector;
-import Util.RecipeUtils.CuisineTool;
+import PropertyClassifiers.CuisineTool;
 import Util.Readers.RecipeDisplaySetReader;
 import Util.RecipeUtils.Recipe;
 import Util.ResourceRepo;
