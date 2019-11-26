@@ -9,11 +9,12 @@ public class Recipe {
     public int ID;
     public CuisineTool.CUISINE cuisine;
     public ArrayList<String> ingredients;
+    public ArrayList<String> steps;
     public String title;
 
     public Recipe() {
         ingredients = new ArrayList<>();
-
+        steps = new ArrayList<>();
     }
 
     public Recipe(ArrayList<String> ingredients) {

@@ -26,7 +26,7 @@ public abstract class RecipeRecommender {
         System.out.println("Initializing recipe database.");
         recipeDB = new HashMap<>();
         try {
-            List<Recipe> recipeList = new RecipeDisplaySetReader(ResourceRepo.props.get("RECIPE_DATA_PATH"), (SimpleWordVectorModel) SuggestionServer.vectors).getRecipes();
+            List<Recipe> recipeList = new RecipeDisplaySetReader(ResourceRepo.props.get("RECIPE_DATA_PATH"), (SimpleWordVectorModel) SuggestionServer.vectors).getRecipes(true);
             for (Recipe r : recipeList) {
                 recipeDB.put(r.ID, r);
             }

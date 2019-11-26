@@ -30,11 +30,11 @@ public class RecipeDisplaySetReader {
         ingredientVocab = vectors.getWordVocab();
     }
 
-    public List<Recipe> getRecipes() {
-        return getRecipes(Integer.MAX_VALUE);
+    public List<Recipe> getRecipes(boolean dictionaryLookup) {
+        return getRecipes(Integer.MAX_VALUE, dictionaryLookup);
     }
 
-    public List<Recipe> getRecipes(int num) {
+    public List<Recipe> getRecipes(int num, boolean dictionaryLookup) {
         LinkedList<Recipe> toReturn = new LinkedList<>();
         for (int i = 0; i < num && i < recipeJSON.length(); i++) {
             ArrayList<String> ings = new ArrayList<>();
@@ -45,23 +45,34 @@ public class RecipeDisplaySetReader {
                 String raw = (in.getString(j));
                 StringTokenizer sT = new StringTokenizer(raw);
                 String longestPossibleIng = "";
-                while (sT.hasMoreTokens()) {
-                    String tok = sT.nextToken();
-                    ArrayList<String> processedToks = new ArrayList<>();
-                    processedToks.add(tok);
-                    if (tok.endsWith("s"))
-                        processedToks.add(tok.substring(0, tok.length() - 1));
-                    for (String token : processedToks) {
-                        if (ingredientVocab.contains(longestPossibleIng + token)) {
-                            longestPossibleIng += token;
-                        } else if (ingredientVocab.contains(token) && token.length() > longestPossibleIng.length()) {
-                            longestPossibleIng = token;
+                if (dictionaryLookup) {
+                    while (sT.hasMoreTokens()) {
+                        String tok = sT.nextToken();
+
+                        ArrayList<String> processedToks = new ArrayList<>();
+                        processedToks.add(tok);
+                        if (tok.endsWith("s"))
+                            processedToks.add(tok.substring(0, tok.length() - 1));
+                        for (String token : processedToks) {
+                            if (ingredientVocab.contains(longestPossibleIng + token)) {
+                                longestPossibleIng += token;
+                            } else if (ingredientVocab.contains(token) && token.length() > longestPossibleIng.length()) {
+                                longestPossibleIng = token;
+                            }
                         }
                     }
                 }
+                else longestPossibleIng = raw;
                 ings.add(longestPossibleIng);
             }
-            toReturn.add(new Recipe(ings, i + 1, recipeJSON.getJSONObject(i).getString("title")));
+            Recipe toAdd = new Recipe(ings, i+1, recipeJSON.getJSONObject(i).getString("title"));
+            if(!dictionaryLookup){
+                JSONArray arr = recipeJSON.getJSONObject(i).getJSONArray("directions");
+                for(int j = 0; j<arr.length(); j++){
+                    toAdd.steps.add(arr.getString(j));
+                }
+            }
+            toReturn.add(toAdd);
         }
         return toReturn;
     }

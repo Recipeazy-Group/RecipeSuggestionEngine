@@ -51,7 +51,7 @@ public class RecipeVectorBuilder {
 
     public static List<Recipe> loadDataset(SimpleWordVectorModel vectors) throws Exception {
         RecipeDisplaySetReader r = new RecipeDisplaySetReader(ResourceRepo.props.get("RECIPE_DATA_PATH"), vectors);
-        return r.getRecipes();
+        return r.getRecipes(true);
     }
 
 }

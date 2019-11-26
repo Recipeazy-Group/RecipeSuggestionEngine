@@ -15,7 +15,7 @@ public class RecipeDatasetGenerator {
     public static void main(String[] args) throws Exception {
 
         SimpleWordVectorModel vectors = new SimpleWordVectorModel(ResourceRepo.props.get("FOOD_VECS_PATH"));
-        List<Recipe> recipeList = new RecipeDisplaySetReader(ResourceRepo.props.get("RECIPE_DATA_PATH"), vectors).getRecipes();
+        List<Recipe> recipeList = new RecipeDisplaySetReader(ResourceRepo.props.get("RECIPE_DATA_PATH"), vectors).getRecipes(true);
         BufferedWriter writer = new BufferedWriter(new FileWriter(new File("recipeDataset.csv")));
         for(Recipe r : recipeList){
             for(String s : r.ingredients){
