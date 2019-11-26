@@ -106,6 +106,7 @@ public class NetServer {
             }
             try {
                 exchange.getResponseHeaders().set("Content-Type", "application/json");
+                exchange.getResponseHeaders().set("Access-Control-Allow-Origin","*");
                 exchange.sendResponseHeaders(responseCode, composite.length());
                 os.write(composite.getBytes());
             } catch (IOException e) {

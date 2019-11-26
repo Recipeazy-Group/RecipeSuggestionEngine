@@ -48,7 +48,7 @@ public abstract class RecipeRecommender {
 
     final static DEV_STATE MODE = DEV_STATE.DEPLOY;
 
-    public static List<Integer> getRecipeRecommendationsFromID(List<Integer> userRecipeIDs, int num) {
+    public static List<Recipe> getRecipeRecommendationsFromID(List<Integer> userRecipeIDs, int num) {
 //
 //        System.out.println("REMOVE THIS CODE LATER");
 //        System.out.println("Input 1: " + recipeDB.get(1).title);
@@ -67,7 +67,7 @@ public abstract class RecipeRecommender {
         return getRecipeRecommendations(recipes, num);
     }
 
-    public static List<Integer> getRecipeRecommendations(List<Recipe> userRecipes, int num) {
+    public static List<Recipe> getRecipeRecommendations(List<Recipe> userRecipes, int num) {
         loadPreferenceMaps(userRecipes);
         // Now construct the user preference vector
         // via the use of a fake, placeholder recipe
@@ -78,9 +78,9 @@ public abstract class RecipeRecommender {
         sum.normalize();
         // Now perform the cosine comparison between user vector and all recipes
         Collection<String> a = recipeVecs.getClosestMatches(sum, num);
-        ArrayList<Integer> toReturn = new ArrayList<>();
+        ArrayList<Recipe> toReturn = new ArrayList<>();
         for (String s : a) {
-            toReturn.add(Integer.parseInt(s));
+            toReturn.add(recipeDB.get(Integer.parseInt(s)));
         }
         return toReturn;
     }
