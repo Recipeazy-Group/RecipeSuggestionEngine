@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public abstract class ResourceRepo {
-    private static final String CONFIG_PATH = "RecipeSuggestionEngine/config.ini";
+    private static final String CONFIG_PATH = "config.ini";
 
     public static HashMap<String, String> props;
 
